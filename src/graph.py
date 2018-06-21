@@ -30,17 +30,41 @@ class Graph:
 
         debug_edge_1 = Edge(debug_vertex_2)
         debug_edge_2 = Edge(debug_vertex_4)
-        debug_edge_3 = Edge(debug_vertex_3)
+        debug_edge_3 = Edge(debug_vertex_1)
+        debug_edge_4 = Edge(debug_vertex_2)
 
         debug_vertex_1.edges.append(debug_edge_1)
         debug_vertex_2.addEdge(debug_edge_2)
-        debug_vertex_2.addEdge(debug_edge_3)
-        print(f"edges : {debug_vertex_2.edges}")
+        debug_vertex_3.addEdge(debug_edge_4)
+        debug_vertex_4.addEdge(debug_edge_3)
+
+        # print(f"edges : {debug_vertex_2.edges}")
         self.vertexes.extend(
             [debug_vertex_1, debug_vertex_2, debug_vertex_3, debug_vertex_4])
 
+    def bfs(self, start):
+        random_color = "#" + \
+            ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
 
-"""
+        queue = []
+        found = []
+        found.append(start)
+        queue.append(start)
+
+        start.color = random_color
+
+        while (len(queue) > 0):
+            v = queue[0]
+            for edge in v.edges:
+                # TODO: add edge weight here
+                if edge.destination not in found:
+                    found.append(edge.destination)
+                    queue.append(edge.destination)
+                    edge.destination.color = random_color
+            queue.pop(0)  # TODO: is this correct???
+        # print(f"found: {found}")
+        return found
+
     def randomize(self, width, height, pxBox, probability):
         def connectVerts(v0, v1):
             v0.edges.append(Edge(v1))
@@ -52,16 +76,18 @@ class Graph:
         for y in range(height):
             row = []
             for x in range(width):
-                v = Vertex('default', 'white', x=-20, y=-20)
+                v = Vertex('default', 'white', x=200, y=200)
                 v.value = f"v{count}"
                 count += 1
                 row.append(v)
             grid.append(row)
+        # print(grid)
 
         for y in range(height):
             for x in range(width):
                 if (y < height - 1):
                     if random.randint(0, 100) < probability:
+                        print(f"testing data       x: {x}  y: {y}")
                         connectVerts(grid[y][x], grid[y+1][x])
                 if (x < width - 1):
                     if random.randint(0, 100) < probability:
@@ -73,12 +99,12 @@ class Graph:
 
         for y in range(height):
             for x in range(width):
-                grid[x][y].pos['x'] = (
+                # print(grid[y][x].pos)
+                grid[y][x].pos['x'] = (
                     x * pxBox + boxInnerOffset + (random.randint(0, 100) / 100) * boxInner) % 1
-                grid[x][y].pos['y'] = (
+                grid[y][x].pos['y'] = (
                     y * pxBox + boxInnerOffset + (random.randint(0, 100) / 100) * boxInner) % 1
 
         for y in range(height):
             for x in range(width):
                 self.vertexes.append(grid[y][x])
-"""

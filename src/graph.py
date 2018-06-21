@@ -30,11 +30,12 @@ class Graph:
 
         debug_edge_1 = Edge(debug_vertex_2)
         debug_edge_2 = Edge(debug_vertex_4)
-        debug_edge_3 = Edge(debug_vertex_1)
+        debug_edge_3 = Edge(debug_vertex_3)
 
         debug_vertex_1.edges.append(debug_edge_1)
         debug_vertex_2.addEdge(debug_edge_2)
-        debug_vertex_3.addEdge(debug_edge_3)
+        debug_vertex_2.addEdge(debug_edge_3)
+        print(f"edges : {debug_vertex_2.edges}")
         self.vertexes.extend(
             [debug_vertex_1, debug_vertex_2, debug_vertex_3, debug_vertex_4])
 

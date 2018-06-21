@@ -43,7 +43,7 @@ graph.node_renderer.glyph = Oval(height=20, width=30, fill_color='color')
 # this draws edges from start to end
 start_nodes = []
 end_nodes = []
-
+count = 1
 for vert in graph_data.vertexes:
     # if len(vert.edges) > 0:
     for edge in vert.edges:

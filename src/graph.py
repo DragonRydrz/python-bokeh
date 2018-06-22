@@ -61,9 +61,14 @@ class Graph:
                     found.append(edge.destination)
                     queue.append(edge.destination)
                     edge.destination.color = random_color
-            queue.pop(0)  # TODO: is this correct???
-        # print(f"found: {found}")
+            queue.pop(0)
         return found
+
+    def get_connected_components(self):
+        searched = []
+        for v in self.vertexes:
+            if v not in searched:
+                searched.append(self.bfs(v))
 
     def randomize(self, width, height, pxBox, probability):
         def connectVerts(v0, v1):
@@ -76,34 +81,32 @@ class Graph:
         for y in range(height):
             row = []
             for x in range(width):
-                v = Vertex('default', 'white', x=200, y=200)
+                v = Vertex('default', 'white', x=0, y=0)
                 v.value = f"v{count}"
                 count += 1
                 row.append(v)
             grid.append(row)
-        # print(grid)
 
         for y in range(height):
             for x in range(width):
                 if (y < height - 1):
-                    if random.randint(0, 100) < probability:
+                    if random.randint(0, 50) < probability:
                         print(f"testing data       x: {x}  y: {y}")
                         connectVerts(grid[y][x], grid[y+1][x])
                 if (x < width - 1):
-                    if random.randint(0, 100) < probability:
+                    if random.randint(0, 50) < probability:
                         connectVerts(grid[y][x], grid[y][x+1])
 
         boxBuffer = 0.8
         boxInner = pxBox * boxBuffer
-        boxInnerOffset = (pxBox - boxInner) / 2
+        boxInnerOffset = (pxBox - boxInner) // 2
 
         for y in range(height):
             for x in range(width):
-                # print(grid[y][x].pos)
-                grid[y][x].pos['x'] = (
-                    x * pxBox + boxInnerOffset + (random.randint(0, 100) / 100) * boxInner) % 1
-                grid[y][x].pos['y'] = (
-                    y * pxBox + boxInnerOffset + (random.randint(0, 100) / 100) * boxInner) % 1
+                grid[y][x].pos['x'] = int(
+                    (x * pxBox + boxInnerOffset + (random.uniform(0, 50)) * boxInner))
+                grid[y][x].pos['y'] = int(
+                    (y * pxBox + boxInnerOffset + (random.uniform(0, 50)) * boxInner))
 
         for y in range(height):
             for x in range(width):
